@@ -1,0 +1,39 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+body{
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,\5fae\8f6f\96c5\9ed1,Arial,sans-serif;
+}
+div::-webkit-scrollbar {
+    width: 0;
+    display: none;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.nav{
+    width: 100%;
+}
+.el-aside{
+    background-color: #181e21;
+    width: auto !important;
+}
+.side-menu{
+    width: 180px;
+}
+
+@media screen and (max-width: 1000px) {
+    .side-menu {
+        width: 100%;
+    }
+}
+.overflow-auto{
+    overflow: auto;
+}

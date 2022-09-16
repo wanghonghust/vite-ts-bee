@@ -1,0 +1,13 @@
+.el-overlay.is-message-box .el-overlay-message-box {
+    top:-30vh;
+}
+
+.el-table__body tr.current-row>td{
+    background-color: #bfd0e4 !important;
+    color: #fff;
+}
+
+.el-form{
+    width: 100%;
+}
+
