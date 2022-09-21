@@ -55,7 +55,7 @@ onMounted(() => {
       if (error.response.data.code == 1) {
         Session.clear(); // 清除浏览器全部临时缓存
         router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}})
-      } else if (error.response.data.code == 2) {
+      } else if (error.response.data.code == 1002) {
         ElMessageBox.alert('登录状态已过期，请重新登录', '提示', {confirmButtonText: '确定'})
             .then(() => {
               Session.clear(); // 清除浏览器全部临时缓存
@@ -64,7 +64,7 @@ onMounted(() => {
             .catch(() => {
             });
       } else {
-        ElMessage.error('未知错误');
+        ElMessage.error(error.response.data.msg);
         Session.clear(); // 清除浏览器全部临时缓存
         router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}});
       }

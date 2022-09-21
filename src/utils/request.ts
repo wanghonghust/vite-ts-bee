@@ -32,10 +32,10 @@ service.interceptors.response.use(
         return response
     },
     (error) => {
-        if (error.response.status ===403 && error.response.data.code!==2){
+        if (error.response.status === 403 && error.response.data.code !== 2) {
             ElMessage({
-                type:"error",
-                message:"接口无访问权限"
+                type: "error",
+                message: "接口无访问权限"
             })
         }
         return Promise.reject(error);
