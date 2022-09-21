@@ -14,7 +14,7 @@
       </template>
     </el-menu-item>
     <el-link v-else :underline="false" :href="item.link">
-      <el-menu-item :index="item.id">
+      <el-menu-item :index="String(item.id)">
         <template #title>
           <i v-if="item.icon" :class="item.icon"></i>
           <span>{{ item.label }}</span>
