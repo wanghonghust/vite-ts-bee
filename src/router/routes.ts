@@ -167,6 +167,20 @@ const routes = [
                 title: "系统监控",
                 requireAuth: true,
             }
+        }, {
+            path: "ssh",
+            component: () => import("../views/tool/ssh/Index.vue"),
+            meta: {
+                title: "Web SSH",
+                requireAuth: true,
+            }
+        }, {
+            path: "ssh1",
+            component: () => import("../views/tool/ssh/Index1.vue"),
+            meta: {
+                title: "Web SSH",
+                requireAuth: true,
+            }
         }]
     }
 ]
