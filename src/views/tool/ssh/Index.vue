@@ -13,7 +13,7 @@ import {onBeforeRouteLeave} from "vue-router";
 
 const xterm = ref(null)
 const term = ref<Terminal>()
-const socketURI = ref('ws://127.0.0.1:8080/ws/1')
+const socketURI = ref('ws://127.0.0.1:8088/tool/ws/1')
 const socket = ref<WebSocket>()
 const initTerm = () => {
   const term1 = new Terminal({
@@ -65,17 +65,21 @@ const socketOnError = () => {
     // console.log('socket 链接失败')
   }
 }
-
+const al = (event: any) => {
+  if (event) {
+    event.returnValue = "我在这写点东西...";
+  }
+  return "我在这写点东西..."
+}
 onMounted(() => {
   initSocket()
-  window.onbeforeunload = function(event) {
-    event.returnValue = "我在这写点东西...";
-  };
+  window.addEventListener('beforeunload', al)
 })
 onBeforeUnmount(() => {
 
   socket.value && socket.value.close()
   term.value && term.value.dispose()
+  window.removeEventListener('beforeunload', al)
 
 })
 
