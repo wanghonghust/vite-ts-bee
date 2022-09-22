@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElTransfer: typeof import('element-plus/es')['ElTransfer']
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
     FilterSelect: typeof import('./src/components/common/FilterSelect.vue')['default']
     Header: typeof import('./src/components/layout/Header.vue')['default']

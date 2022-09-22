@@ -46,8 +46,10 @@ import {onBeforeUnmount, onMounted, reactive, ref} from "vue"
 import {Terminal} from 'xterm'
 import {FitAddon} from 'xterm-addon-fit'
 import {AttachAddon} from 'xterm-addon-attach'
-import {ElMessageBox} from "element-plus/es";
+import {ElMessageBox, FormInstance} from "element-plus/es";
 import {onBeforeRouteLeave} from "vue-router";
+import {sshConfig} from "../../../api/ssh";
+import {ElMessage} from "element-plus";
 
 const xterm = ref(null)
 const term = ref<Terminal>()
@@ -57,9 +59,10 @@ const dialogVisible = ref(false)
 
 const initTerm = () => {
   const term1 = new Terminal({
+    rendererType: "canvas",
     fontSize: 16,
     cursorBlink: true,
-    
+    windowsMode: true,
   });
   const attachAddon = new AttachAddon(socket.value);
   const fitAddon = new FitAddon();
@@ -75,10 +78,6 @@ const initTerm = () => {
 
 const initSocket = () => {
   socket.value = new WebSocket(socketURI.value);
-  if (socket){
-    socket.value.se
-  }
-
   socketOnClose();
   socketOnOpen();
   socketOnError();
@@ -117,7 +116,6 @@ const al = (event: any) => {
   return "..."
 }
 onMounted(() => {
-  initSocket()
   window.addEventListener('beforeunload', al)
 })
 
@@ -142,11 +140,11 @@ onBeforeRouteLeave((to, from, next) => {
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: '',
-  ip: '',
+  name: '测试',
+  ip: '121.4.61.20',
   port: 22,
-  user: '',
-  password: '',
+  user: 'root',
+  password: 'Emergency520',
 })
 
 const rules = reactive({
@@ -157,11 +155,25 @@ const rules = reactive({
   password: [{required: true, trigger: 'blur', message: "密码必填"}],
 })
 
+const configSSH = () => {
+  sshConfig(ruleForm).then((res) => {
+    console.log(res)
+  }).catch(() => {
+    ElMessage({
+      message: "SSH 连接失败",
+      type: "error"
+    })
+  })
+}
+
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!')
+      configSSH()
+      initSocket()
+      dialogVisible.value = false
     } else {
       console.log('error submit!')
       return false
