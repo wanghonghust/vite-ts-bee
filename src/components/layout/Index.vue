@@ -12,7 +12,7 @@
       <el-collapse v-if="!menuVertical" accordion style="margin-bottom: 10px">
         <el-collapse-item name="1">
           <template #title>
-            <el-tag class="iconfont icon-xitongguanli"></el-tag>
+            <el-tag class="icon-hello icon-to-end-alt"></el-tag>
           </template>
           <SideBar :key="menuVertical" v-model:isCollapse="isCollapse"/>
         </el-collapse-item>

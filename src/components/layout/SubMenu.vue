@@ -8,15 +8,15 @@
       <SubMenu :subMenu="item.children"/>
     </el-sub-menu>
     <el-menu-item v-else-if="item.local" :index="item.link">
+      <i v-if="item.icon" :class="item.icon"></i>
       <template #title>
-        <i v-if="item.icon" :class="item.icon"></i>
         <span>{{ item.label }}</span>
       </template>
     </el-menu-item>
     <el-link v-else :underline="false" :href="item.link">
-      <el-menu-item :index="String(item.id)">
+      <el-menu-item index="" :key="item.link">
+        <i v-if="item.icon" :class="item.icon"></i>
         <template #title>
-          <i v-if="item.icon" :class="item.icon"></i>
           <span>{{ item.label }}</span>
         </template>
       </el-menu-item>

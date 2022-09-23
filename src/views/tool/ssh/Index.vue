@@ -1,6 +1,6 @@
 <template>
   <div></div>
-  <el-button type="primary" @click="dialogVisible = true">新增ssh连接</el-button>
+  <el-button type="primary" @click="dialogVisible = true" :disabled="confirmF">新增ssh连接</el-button>
   <el-dialog
       v-model="dialogVisible"
       title="新建SSH连接"
@@ -42,11 +42,11 @@
 </template>
 <script lang="ts" setup>
 import 'xterm/css/xterm.css'
-import {onBeforeUnmount, onMounted, reactive, ref} from "vue"
+import {onBeforeUnmount, reactive, ref} from "vue"
 import {Terminal} from 'xterm'
 import {FitAddon} from 'xterm-addon-fit'
 import {AttachAddon} from 'xterm-addon-attach'
-import {ElMessageBox, FormInstance} from "element-plus/es";
+import {FormInstance} from "element-plus/es";
 import {onBeforeRouteLeave} from "vue-router";
 import {sshConfig} from "../../../api/ssh";
 import {ElMessage} from "element-plus";
@@ -56,7 +56,7 @@ const term = ref<Terminal>()
 const socketURI = ref('ws://127.0.0.1:8088/tool/ws/1')
 const socket = ref<WebSocket>()
 const dialogVisible = ref(false)
-
+const confirmF = ref(false)
 const initTerm = () => {
   const term1 = new Terminal({
     rendererType: "canvas",
@@ -115,10 +115,6 @@ const al = (event: any) => {
   }
   return "..."
 }
-onMounted(() => {
-  window.addEventListener('beforeunload', al)
-})
-
 
 onBeforeUnmount(() => {
   socket.value && socket.value.close()
@@ -126,16 +122,19 @@ onBeforeUnmount(() => {
 })
 
 onBeforeRouteLeave((to, from, next) => {
-  window.removeEventListener('beforeunload', al)
-  ElMessageBox.confirm('离开页面，ssh将断开', '提示', {confirmButtonText: '确定', cancelButtonText: '取消'})
-      .then(() => {
-        socket.value && socket.value.close()
-        term.value && term.value.dispose()
-        next(true)
-      })
-      .catch(() => {
-        next(false)
-      });
+  if (!confirmF.value) {
+    next(true)
+    return
+  }
+  const res = confirm('离开页面，ssh将断开')
+  if (res) {
+    socket.value && socket.value.close()
+    term.value && term.value.dispose()
+    window.removeEventListener('beforeunload', al)
+    next(true)
+  } else {
+    next(false)
+  }
 })
 
 const ruleFormRef = ref<FormInstance>()
@@ -157,7 +156,8 @@ const rules = reactive({
 
 const configSSH = () => {
   sshConfig(ruleForm).then((res) => {
-    console.log(res)
+    window.addEventListener('beforeunload', al)
+    confirmF.value = true
   }).catch(() => {
     ElMessage({
       message: "SSH 连接失败",
