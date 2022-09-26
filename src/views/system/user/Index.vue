@@ -43,6 +43,11 @@
             <div>{{ scope.row.createdAt }}</div>
           </template>
         </el-table-column>
+        <el-table-column label="超级用户" sortable prop="isSuperUser">
+          <template #default="scope">
+            <div>{{ scope.row.isSuperUser ? "是" : "否" }}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="状态">
           <template #default="scope">
             <el-switch class="ml-2" v-model="scope.row.state" @click="changeState(scope.$index,scope.row)"
@@ -50,7 +55,7 @@
                        inactive-text="禁用" inline-prompt></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="220">
           <template #default="scope">
             <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" :icon="Edit">编辑
             </el-button>
@@ -61,7 +66,7 @@
                 :icon="Delete">删除
             </el-button>
             <el-avatar style="margin: 0.2rem;" shape="square" :size="25"
-                       :src="scope.row.avatar ? baseUrl + `system/file?id=` + scope.row.avatar:''" />
+                       :src="scope.row.avatar ? baseUrl + `system/file?id=` + scope.row.avatar:''"/>
             <el-button type="info" size="small" @click="editAvatar(scope.$index, scope.row)"
                        class="iconfont icon-shangchuantouxiang" circle></el-button>
           </template>
@@ -94,6 +99,9 @@
       </el-form-item>
       <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
         <el-input v-model="editForm.email" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="超级用户" :label-width="formLabelWidth" prop="isSuperUser">
+        <el-checkbox v-model="editForm.isSuperUser" size="large" />
       </el-form-item>
       <el-form-item label="角色" :label-width="formLabelWidth">
         <el-transfer
@@ -142,6 +150,9 @@
       </el-form-item>
       <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
         <el-input v-model="addForm.email" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="超级用户" :label-width="formLabelWidth" prop="isSuperUser">
+        <el-checkbox v-model="addForm.isSuperUser" size="large" />
       </el-form-item>
       <el-form-item label="角色" :label-width="formLabelWidth">
         <el-transfer
@@ -204,7 +215,6 @@ import {createUser, deleteUser, editUser, editUserAvatar, getPageUser} from "../
 import {Session} from "../../../utils/storage";
 import {getAllRole, Role} from "../../../api/sys-role";
 import {baseUrl} from "../../../api/common";
-import {AxiosRequestHeaders} from "axios";
 
 const uploadRef = ref<UploadInstance>()
 const addDialogVisible = ref(false)
@@ -226,7 +236,8 @@ const editForm = reactive({
   nickname: '',
   email: '',
   username: '',
-  role: []
+  role: [],
+  isSuperUser:false,
 })
 const editSource = ref({})
 const addForm = reactive({
@@ -235,7 +246,8 @@ const addForm = reactive({
   username: '',
   password: '',
   password_c: '',
-  role: []
+  role: [],
+  isSuperUser:false,
 })
 
 const rules = reactive<FormRules>({
@@ -256,7 +268,8 @@ interface UserInfo {
   nickname: string,
   state: boolean,
   username: string
-  role: Array<any>
+  role: Array<any>,
+  isSuperUser:boolean,
 }
 
 const userInfo: UserInfo[] = reactive([])
@@ -268,7 +281,9 @@ const dialogMsg = ref("")
 const roles = ref<Role[]>([])
 const getRoles = () => {
   getAllRole().then((res) => {
-    roles.value = res.data.data
+    if (res.data.data) {
+      roles.value = res.data.data
+    }
   }).catch(() => {
   })
 }
@@ -293,6 +308,7 @@ const handleEdit = (index: number, row: any) => {
   editForm.username = row.username
   editForm.nickname = row.nickname
   editForm.email = row.email
+  editForm.isSuperUser = row.isSuperUser
   editForm.role = row.role.map(item => item.id)
   editSource.value = JSON.parse(JSON.stringify(editForm))
 

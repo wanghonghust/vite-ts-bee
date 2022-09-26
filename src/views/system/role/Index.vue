@@ -17,11 +17,11 @@
         <el-table-column label="权限">
           <template #default="scope">
             <el-popover v-if="scope.row.permission.length>0"
-                placement="bottom"
-                title="权限详情"
-                :width="350"
-                popper-class="overflow-auto"
-                trigger="click">
+                        placement="bottom"
+                        title="权限详情"
+                        :width="350"
+                        popper-class="overflow-auto"
+                        trigger="click">
               <el-row :gutter="10">
                 <el-col v-for="item in scope.row.permission.map(item1 => item1.type+' : '+item1.name)" :span="12"
                         style="margin-bottom: 5px">
@@ -218,7 +218,9 @@ const getRoles = () => {
 
 const getPerm = () => {
   getAllPerm().then((res) => {
-    permission.value = res.data.data
+    if (res.data.data) {
+      permission.value = res.data.data
+    }
   }).catch(() => {
 
   })
@@ -349,11 +351,11 @@ const handleSelectionChange = (val: Role[]) => {
   selectedRoles.value = val
 }
 
-const addTitle=(e:Event)=> {
+const addTitle = (e: Event) => {
   //手动给鼠标划过的元素添加一个title
   let target_el = e.target as HTMLInputElement;
-    if (target_el.title) return;
-    target_el.title = target_el.innerText;
+  if (target_el.title) return;
+  target_el.title = target_el.innerText;
 }
 
 
