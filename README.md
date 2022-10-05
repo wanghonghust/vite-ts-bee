@@ -5,13 +5,13 @@
 #### 效果展示
 
     1.用户管理
-    ![用户管理](E:\goCode\vite-ts-bee\src\assets\us.png)
+    ![用户管理](https://gitee.com/wang-honghust/vite-ts-bee/blob/master/src/assets/us.png)
     2.菜单管理
-    ![](E:\goCode\vite-ts-bee\src\assets\menu.png)
+    ![menu](https://gitee.com/wang-honghust/vite-ts-bee/blob/master/src/assets/menu.png)
     3.日志
-    ![](E:\goCode\vite-ts-bee\src\assets\log.png)
+    ![log](https://gitee.com/wang-honghust/vite-ts-bee/blob/master/src/assets/log.png)
     4.Web SSH
-    ![ssh](E:\goCode\vite-ts-bee\src\assets\ssh.png)
+    ![ssh](https://gitee.com/wang-honghust/vite-ts-bee/blob/master/src/assets/ssh.png)
 
 #### 使用说明
 
