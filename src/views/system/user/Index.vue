@@ -67,7 +67,7 @@
             </el-button>
             <el-avatar style="margin: 0.2rem;" shape="square" :size="25"
                        :src="scope.row.avatar ? baseUrl + `system/file?id=` + scope.row.avatar:''"/>
-            <el-button type="info" size="small" @click="editAvatar(scope.$index, scope.row)"
+            <el-button type="info" :icon="Plus" size="small" @click="editAvatar(scope.$index, scope.row)"
                        class="iconfont icon-shangchuantouxiang" circle></el-button>
           </template>
         </el-table-column>
@@ -91,7 +91,7 @@
       />
     </el-col>
   </el-row>
-  <el-dialog v-model="dialogFormVisible" :title="dialogTitle" width="40%" destroy-on-close :draggable="true"
+  <el-dialog v-model="dialogFormVisible" :title="dialogTitle" width="45%" destroy-on-close :draggable="true"
              @open="getRoles">
     <el-form :model="editForm" ref="ruleFormRef" :rules="rules" status-icon>
       <el-form-item label="昵称" :label-width="formLabelWidth" prop="nickname">
@@ -134,7 +134,7 @@
       </span>
     </template>
   </el-dialog>
-  <el-dialog v-model="addDialogVisible" title="新增用户" width="40%" destroy-on-close :draggable="true" @open="getRoles">
+  <el-dialog v-model="addDialogVisible" title="新增用户" width="45%" destroy-on-close :draggable="true" @open="getRoles">
     <el-form :model="addForm" ref="addFormRef" :rules="addRules" status-icon>
       <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
         <el-input v-model="addForm.username" autocomplete="off"/>
