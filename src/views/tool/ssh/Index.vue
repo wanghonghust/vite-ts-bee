@@ -140,10 +140,10 @@ onBeforeRouteLeave((to, from, next) => {
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   name: '测试',
-  ip: '121.4.61.20',
+  ip: '***.***.***.***',
   port: 22,
-  user: 'root',
-  password: 'Emergency520',
+  user: '*****',
+  password: '*****************',
 })
 
 const rules = reactive({
