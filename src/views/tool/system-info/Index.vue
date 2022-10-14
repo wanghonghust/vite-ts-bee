@@ -100,4 +100,7 @@ onBeforeUnmount(() => {
 .el-col {
   margin-bottom: 1rem;
 }
+.el-card__body{
+  overflow: auto;
+}
 </style>

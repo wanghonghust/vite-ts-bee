@@ -53,7 +53,7 @@ import {ElMessage} from "element-plus";
 
 const xterm = ref(null)
 const term = ref<Terminal>()
-const socketURI = ref('ws://127.0.0.1:8088/tool/ws/1')
+const socketURI = ref('ws://121.4.61.20:8088/tool/ws/1')
 const socket = ref<WebSocket>()
 const dialogVisible = ref(false)
 const confirmF = ref(false)
