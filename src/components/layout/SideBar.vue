@@ -10,7 +10,7 @@
       :collapse="isCollapse">
     <el-menu-item index="/index">
       <el-icon>
-        <el-image class="logo" src="/src/assets/OIP-C.png"></el-image>
+        <el-image class="logo" src="/OIP-C.png"></el-image>
       </el-icon>
       <template #title style="text-align: end">
         <el-link href="/" :underline="false" style="font-size: 18px">Admin</el-link>

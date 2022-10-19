@@ -2,7 +2,7 @@ import request from "../utils/request";
 import router from "../router";
 import {FormInstance} from "element-plus/es";
 
-export const baseUrl = import.meta.env.VITE_API_URL
+export const baseUrl = import.meta.env.VITE_API_URL as any
 
 export async function download(id: Number) {
     const res = await request({

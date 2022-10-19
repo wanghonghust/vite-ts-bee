@@ -50,10 +50,12 @@ import {FormInstance} from "element-plus/es";
 import {onBeforeRouteLeave} from "vue-router";
 import {sshConfig} from "../../../api/ssh";
 import {ElMessage} from "element-plus";
+import {baseUrl} from "../../../api/common";
 
 const xterm = ref(null)
 const term = ref<Terminal>()
-const socketURI = ref('ws://121.4.61.20:8088/tool/ws/1')
+const addr = baseUrl.replace("http", "ws")
+const socketURI = ref(addr + 'tool/ws/1')
 const socket = ref<WebSocket>()
 const dialogVisible = ref(false)
 const confirmF = ref(false)
@@ -80,7 +82,8 @@ const initSocket = () => {
   socket.value = new WebSocket(socketURI.value);
   socketOnClose();
   socketOnOpen();
-  socketOnError();
+  const status = socketOnError();
+  return status
 }
 const socketOnOpen = () => {
   if (!socket.value) {
@@ -102,12 +105,15 @@ const socketOnClose = () => {
 }
 
 const socketOnError = () => {
+  let status = true
   if (!socket.value) {
-    return
+    return status
   }
   socket.value.onerror = () => {
     // console.log('socket 链接失败')
+    status = false
   }
+  return status
 }
 const al = (event: any) => {
   if (event) {
@@ -158,22 +164,23 @@ const configSSH = () => {
   sshConfig(ruleForm).then((res) => {
     window.addEventListener('beforeunload', al)
     confirmF.value = true
+    dialogVisible.value = false
   }).catch(() => {
+    confirmF.value = false
     ElMessage({
       message: "SSH 连接失败",
       type: "error"
     })
   })
+
 }
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
       configSSH()
       initSocket()
-      dialogVisible.value = false
     } else {
       console.log('error submit!')
       return false
