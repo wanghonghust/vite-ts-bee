@@ -34,14 +34,13 @@ import {ElMessage, ElMessageBox} from "element-plus/es";
 
 const menuVertical = ref(window.innerWidth > 1000)
 const coll = Session.get("isCollapse")
-const isCollapse = ref(!!coll)
+const isCollapse = ref(coll)
 provide("menuVertical",menuVertical)
 window.onresize = () => {
   menuVertical.value = window.innerWidth > 1000
-  if (menuVertical.value) {
-    isCollapse.value = false
-  }
-
+  // if (menuVertical.value) {
+  //   isCollapse.value = true
+  // }
 }
 onMounted(() => {
   // 页面刷新，验证登录是否过期
