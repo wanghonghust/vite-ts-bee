@@ -190,10 +190,10 @@ onBeforeRouteLeave((to, from, next) => {
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   name: '测试',
-  host: '121.4.61.20',
+  host: '***********',
   port: 22,
   user: 'root',
-  password: 'Emergency520@',
+  password: '**************',
 })
 const rules = reactive({
   name: [{required: true, trigger: 'blur', message: "连接名必填"}],

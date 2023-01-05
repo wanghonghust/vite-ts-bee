@@ -129,7 +129,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
 
 const ruleForm = reactive({
   username: 'admin',
-  password: '123456',
+  password: '123456789',
 })
 
 const rules = reactive({
@@ -210,7 +210,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 }
 
 .login-main {
-  width: 350px;
+  width: 350px !important;
   padding: 2rem 2rem;
   background: rgb(145 145 145 / 20%);
   border-radius: 10px;
