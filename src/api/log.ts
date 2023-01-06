@@ -1,9 +1,10 @@
 import request from "../utils/request";
 
-export function getLogs() {
+export function getLogs(params:object) {
     return request({
         url: "/system/log",
         method: "get",
+        params:params
     });
 }
 

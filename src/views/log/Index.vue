@@ -1,7 +1,8 @@
 <template>
   <el-row class="role-table-row">
     <el-col>
-      <el-table :data="logs" row-key="description" stripe class="role-table" max-height="780" highlight-current-row
+      <el-table :data="paginator.data" row-key="description" stripe class="role-table" max-height="780"
+                highlight-current-row
                 table-layout="fixed">
         <el-table-column label="编号" type="index" width="60"/>
         <el-table-column label="接口路径" sortable prop="fullPath"/>
@@ -32,7 +33,7 @@
 
                   ></json-viewer>
                   <span v-else>
-                  {{scope.row.response}}
+                  {{ scope.row.response }}
                 </span>
                 </el-card>
               </el-popover>
@@ -50,6 +51,20 @@
         <el-table-column label="请求时间" prop="createdAt">
         </el-table-column>
       </el-table>
+      <el-pagination
+          v-model:currentPage="paginator.page"
+          v-model:page-size="paginator.pageSize"
+          :page-sizes="[10,20, 40, 60, 80]"
+          :disabled="false"
+          background
+          prev-text="上一页"
+          next-text="下一页"
+          layout="prev, pager, next, sizes,jumper, total"
+          :total="paginator.total"
+          @size-change="getLog"
+          @current-change="getLog"
+          class="pagination"
+      />
     </el-col>
   </el-row>
 </template>
@@ -65,12 +80,25 @@ const tagInfo = {
   DELETE: "danger",
   PUT: "warning",
 }
-const logs = ref<Log[]>([])
+
+interface Paginator {
+  page: number
+  pageSize: number
+  total: number
+  count: number
+  data: Array<Log>
+}
+
+const paginator = ref<Paginator>({page: 1, pageSize: 10, total: 0, count: 0, data: []})
 onMounted(() => {
-  getLogs().then((res) => {
-    logs.value = res.data.data
-  })
+  getLog()
 })
+
+const getLog = () => {
+  getLogs({page: paginator.value.page, pageSize: paginator.value.pageSize}).then((res) => {
+    paginator.value = res.data
+  })
+}
 
 </script>
 
@@ -122,6 +150,7 @@ onMounted(() => {
 .el-tag {
   margin-left: 0.25rem;
 }
+
 div::-webkit-scrollbar {
   width: 0;
 }
