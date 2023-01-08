@@ -21,6 +21,7 @@
       </el-form-item>
       <el-form-item label="HOST" prop="host">
         <el-input v-model="ruleForm.host"/>
+<!--        <ip-input2 v-model:ip="ruleForm.host"/>-->
       </el-form-item>
       <el-form-item label="端口" prop="port">
         <el-input-number controls-position="right" v-model="ruleForm.port" :min="1"/>

@@ -10,6 +10,8 @@
 
 <script lang="ts" setup>
 import {ref, watch} from 'vue'
+import IpInput from "./IpInput.vue";
+
 defineProps({
   ip: {
     type: String
@@ -25,7 +27,7 @@ const checkVal = (item: Object) => {
     item.value = tmp > 255 ? 255 : tmp.toString()
   }
 }
-const keyDown= (index: number, item: Object, e: KeyboardEvent) => {
+const keyDown = (index: number, item: Object, e: KeyboardEvent) => {
   if (e.key === "ArrowLeft") {
     if (index !== 0 && e.currentTarget.selectionStart === 0) {
       inputRef.value[index - 1].focus();
@@ -38,12 +40,12 @@ const keyDown= (index: number, item: Object, e: KeyboardEvent) => {
     if (index !== 0 && item.value === '') {
       inputRef.value[index - 1].focus();
     }
-  }else if(e.key==="Enter"||e.key===" "||e.key==="."){
-    if(index !== 3) {
+  } else if (e.key === "Enter" || e.key === " " || e.key === ".") {
+    if (index !== 3) {
       inputRef.value[index + 1].focus();
     }
-  }else if(item.value.length===3){
-    if(index !== 3) {
+  } else if (item.value.length === 3) {
+    if (index !== 3) {
       inputRef.value[index + 1].focus();
     }
   }
@@ -78,13 +80,18 @@ watch(() => [ipArray.value[0].value, ipArray.value[1].value, ipArray.value[2].va
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 200px;
-  border: black solid 1.5px;
-  border-radius: 5px;
+  width: 100%;
+  border: 1px var(--el-border-style) var(--el-border-color);
+  border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+  transition: var(--el-transition-box-shadow);
 }
 
 .dot {
   font-size: 14px;
-  line-height: 30px;
+  line-height: var(--el-input-inner-height)
+}
+
+.ip-input:hover,ip-input:focus {
+  border: #409eff solid 1px;
 }
 </style>

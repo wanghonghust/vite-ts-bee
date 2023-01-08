@@ -32,8 +32,8 @@
     </div>
     <el-sub-menu index="2">
       <template #title>
-        <el-avatar :size="32" :src="avatar ? baseUrl + `system/file?id=` + avatar:''"/>
-        {{ username }}
+        <el-avatar :size="32" :src="userinfo.avatar ? baseUrl + `system/file?id=` + userinfo.avatar:''"/>
+        {{ userinfo.username }}
       </template>
       <el-menu-item index="2-1" @click="logOut">
         <span>注销</span>
@@ -47,9 +47,9 @@
 
 <script lang="ts" setup>
 import {useDark, useToggle} from "@vueuse/core";
-import {logout} from "../../api/auth";
+import {getUserInfo, logout} from "../../api/auth";
 import screenfull from "screenfull";
-import {inject, ref, toRefs} from "vue";
+import {inject, onMounted, ref, toRefs} from "vue";
 import {Session} from "../../utils/storage";
 import {Moon, Sunny} from '@element-plus/icons-vue'
 import {reloadRouter,baseUrl} from "../../api/common"
@@ -58,12 +58,11 @@ import {reloadRouter,baseUrl} from "../../api/common"
 const props = defineProps({
   isCollapse: Boolean,
 })
+const userinfo = ref({})
 const {isCollapse} = toRefs(props)
 const menuVertical = inject("menuVertical")
 const emits = defineEmits(["update:isCollapse","update:menuVertical"])
 const userId = Session.get("user")
-const avatar = Session.get("avatar")
-const username = Session.get("username")
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const logOut = () => {
@@ -76,6 +75,14 @@ const toggle = () => {
   emits('update:isCollapse', !props.isCollapse)
   Session.set("isCollapse", !props.isCollapse)
 }
+onMounted(() => {
+  getUserInfo(userId).then((res) => {
+    userinfo.value = res.data
+  })
+  return {
+    userinfo
+  }
+})
 </script>
 
 <style scoped>
